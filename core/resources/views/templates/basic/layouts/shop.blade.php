@@ -23,7 +23,9 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue. 'css/color.php?color='.$general->base_color.'&secondColor='.$general->secondary_color) }}">
     <link rel="shortcut icon" href="{{ getImage('assets/images/logoIcon/favicon.png', '128x128') }}"
         type="image/x-icon">
-    <link rel="stylesheet" href="{{asset('assets/shop/global.css')}}.css">
+    <link rel="stylesheet" href="{{asset('assets/shop/global.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/shop/index.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/shop/shop.css')}}">
 
 </head>
 <body>
