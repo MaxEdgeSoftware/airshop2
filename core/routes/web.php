@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Shop\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', function(){
@@ -8,9 +9,7 @@ Route::get('/clear', function(){
 
 
 Route::domain('{subdomain}.' . env('APP_CDN'))->group(function ($subdomain) {
-    Route::get("/", function($subdomain){
-        return response($subdomain.' it is working');
-    });
+    Route::get("/", [HomeController::class, 'index']);
     Route::get("/products", function(){
         dd("products");
         // dd($subdomain);
