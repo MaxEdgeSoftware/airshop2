@@ -161,10 +161,10 @@
                                                         <span class="ml-2 mr-auto">({{ $item->reviews->count() }})</span>
                                                         <div class="price">
                                                             @if($discount > 0)
-                                                                {{ $general->cur_sym }}{{ getAmount($item->base_price - $discount, 2) }}
+                                                                {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price - $discount, 2) }}
                                                                 <del>{{ getAmount($item->base_price, 2) }}</del>
                                                             @else
-                                                                {{ $general->cur_sym }}{{ getAmount($item->base_price, 2) }}
+                                                                {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price, 2) }}
                                                             @endif
                                                         </div>
                                                     </div>
@@ -175,10 +175,10 @@
                                                     </button>
                                                     <div class="price">
                                                         @if($discount > 0)
-                                                        {{ $general->cur_sym }}{{ getAmount($item->base_price - $discount, 2) }}
+                                                        {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price - $discount, 2) }}
                                                         <del>{{ getAmount($item->base_price, 2) }}</del>
                                                         @else
-                                                        {{ $general->cur_sym }}{{ getAmount($item->base_price, 2) }}
+                                                        {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price, 2) }}
                                                         @endif
                                                     </div>
                                                 </div>
@@ -246,7 +246,7 @@
                 max: {{$max_price}},
                 values: [ {{$min_price}}, {{$max_price}} ],
                 slide: function( event, ui ) {
-                    $( "#amount" ).val( "{{$general->cur_sym}}" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                    $( "#amount" ).val( "{{currencySign(getUserIP()[0])}}" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
                     $('input[name=min_price]').val(ui.values[ 0 ]);
                     $('input[name=max_price]').val(ui.values[ 1 ]);
 
@@ -262,7 +262,7 @@
             });
 
 
-            $("#amount").val( "{{$general->cur_sym}}" + $( "#slider-range" ).slider( "values", 0 ) + " - {{$general->cur_sym}}" + $( "#slider-range" ).slider( "values", 1 ) );
+            $("#amount").val( "{{currencySign(getUserIP()[0])}}" + $( "#slider-range" ).slider( "values", 0 ) + " - {{currencySign(getUserIP()[0])}}" + $( "#slider-range" ).slider( "values", 1 ) );
 
             $('.filter-category li a').on('click', function(){
 

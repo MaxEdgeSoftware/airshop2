@@ -117,10 +117,10 @@
                                             <span class="ml-2 mr-auto">({{ $item->reviews->count() }})</span>
                                             <div class="price">
                                                 @if($discount > 0)
-                                                    {{ $general->cur_sym }}{{ getAmount($item->base_price - $discount, 2) }}
+                                                    {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price - $discount, 2) }}
                                                     <del>{{ getAmount($item->base_price, 2) }}</del>
                                                 @else
-                                                    {{ $general->cur_sym }}{{ getAmount($item->base_price, 2) }}
+                                                    {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price, 2) }}
                                                 @endif
                                             </div>
                                         </div>
@@ -131,10 +131,10 @@
                                         </button>
                                         <div class="price">
                                             @if($discount > 0)
-                                            {{ $general->cur_sym }}{{ getAmount($item->base_price - $discount, 2) }}
+                                            {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price - $discount, 2) }}
                                             <del>{{ getAmount($item->base_price, 2) }}</del>
                                             @else
-                                            {{ $general->cur_sym }}{{ getAmount($item->base_price, 2) }}
+                                            {{CurrencySign($item->seller->base_currency)}}{{ getAmount($item->base_price, 2) }}
                                             @endif
                                         </div>
                                     </div>

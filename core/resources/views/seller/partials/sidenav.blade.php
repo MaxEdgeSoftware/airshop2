@@ -17,10 +17,11 @@
 
         <div class="sidebar__menu-wrapper" id="sidebar__menuWrapper">
             <ul class="sidebar__menu">
-
+                @if(2==3)
                 <li class="sidebar-menu-item bg--white mb-2">
                     <span class="menu-title nav-link font-weight-bold @if(seller()->balance> 0)text--success @else text--danger @endif">@lang('Current Balance'): {{ $general->cur_sym.showAmount(seller()->balance) }}</span>
                 </li>
+                @endif
 
                 <li class="sidebar-menu-item {{menuActive('seller.home')}}">
                     <a href="{{route('seller.home')}}" class="nav-link ">
@@ -33,6 +34,12 @@
                     <a href="{{route('seller.shop')}}" class="nav-link ">
                         <i class="menu-icon las la-store-alt"></i>
                         <span class="menu-title">@lang('My Shop')</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item {{menuActive('seller.shop*')}}">
+                    <a href="/seller/live-chat" class="nav-link ">
+                        <i class="menu-icon las la-envelope"></i>
+                        <span class="menu-title">@lang('Chat')</span>
                     </a>
                 </li>
 
@@ -68,7 +75,7 @@
                         </ul>
                     </div>
                 </li>
-
+                @if(2==3)
                 <li class="sidebar-menu-item sidebar-dropdown">
                     <a href="javascript:void(0)" class="{{menuActive('seller.order*',3)}}">
                         <i class="las la-money-bill menu-icon"></i>
@@ -143,7 +150,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="sidebar-menu-item {{ menuActive('seller.sell.log') }}">
                     <a class="nav-link" href="{{ route('seller.sell.log') }}">
                         <i class="menu-icon las la-file-invoice-dollar"></i>
@@ -181,6 +187,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
 
                 <li class="sidebar-menu-item {{ menuActive('seller.twofactor') }}">
                     <a class="nav-link" href="{{ route('seller.twofactor') }}">

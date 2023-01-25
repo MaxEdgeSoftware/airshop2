@@ -3,6 +3,7 @@
 @section('panel')
 
 <div class="row mb-none-30">
+    @if(2 == 3)
     <div class="col-xl-4 col-md-6 mb-30">
         <div class="widget bb--3 border--dark b-radius--10 bg--white p-4 box--shadow2 has--link">
             <div class="widget__icon b-radius--rounded bg--dark"><i class="las la-cart-arrow-down"></i></div>
@@ -113,6 +114,24 @@
             </div>
         </div><!-- widget end -->
     </div>
+    @endif
+    <div class="col-xl-4 col-md-6 mb-30">
+        <div class="widget bb--3 border--deep-purple b-radius--10 bg--white p-4 box--shadow2 has--link">
+            <div class="widget__icon b-radius--rounded bg--deep-purple">
+                <i class="las la-shipping-fast"></i>
+            </div>
+            <div class="widget__content">
+                <p class="text-uppercase text-muted">@lang('My Shop')</p>
+                <h1 class="font-weight-bold text--deep-purple">
+                {{seller()->shop ?  1 : 0}}
+                </h1>
+                <p class="mt-10 text-right">
+                    <a class="btn btn-sm bg--deep-purple text--white" href="//{{seller()->shop ? seller()->shop->domain : '/seller/shop'}}">{{ seller()->shop ? 'View' : 'Create'}}</a>
+                </p>
+            </div>
+        </div><!-- widget end -->
+    </div>
+
     <div class="col-xl-4 col-md-6 mb-30">
         <div class="widget bb--3 border--indigo b-radius--10 bg--white p-4 box--shadow2 has--link">
             <div class="widget__icon b-radius--rounded bg--indigo">
@@ -150,22 +169,56 @@
     <div class="col-xl-4 col-md-6 mb-30">
         <div class="widget bb--3 border--black b-radius--10 bg--white p-4 box--shadow2 has--link">
             <div class="widget__icon b-radius--rounded bg--black">
-                <i class="las la-file-invoice-dollar"></i>
+                <i class="las la-envelope"></i>
             </div>
             <div class="widget__content">
-                <p class="text-uppercase text-muted">@lang('Total Sold')</p>
+                <p class="text-uppercase text-muted">@lang('Chat')</p>
                 <h1 class="text--black font-weight-bold">
                     {{$product['total_sold']}}
                 </h1>
                 <p class="mt-10 text-right">
-                    <a class="btn btn-sm bg--black text--white" href="{{route('seller.sell.log')}}">@lang('View All')
+                    <a class="btn btn-sm bg--black text--white" href="/seller/live-chat">@lang('View All')
+                    </a>
+                </p>
+            </div>
+        </div><!-- widget end -->
+    </div>
+    <div class="col-xl-4 col-md-6 mb-30">
+        <div class="widget bb--3 border--danger b-radius--10 bg--white p-4 box--shadow2 has--link">
+            <div class="widget__icon b-radius--rounded bg--danger">
+                <i class="las la-comment-slash"></i>
+            </div>
+            <div class="widget__content">
+                <p class="text-uppercase text-muted">@lang('Tickets')</p>
+                <h1 class="text--danger font-weight-bold">
+                    {{seller()->SupportTickets->count()}}
+                </h1>
+                <p class="mt-10 text-right">
+                    <a class="btn btn-sm btn--danger" href="/seller/support-tickets">@lang('View All')
+                    </a>
+                </p>
+            </div>
+        </div><!-- widget end -->
+    </div>
+    <div class="col-xl-4 col-md-6 mb-30">
+        <div class="widget bb--3 border--black b-radius--10 bg--white p-4 box--shadow2 has--link">
+            <div class="widget__icon b-radius--rounded bg--light-blue">
+                <i class="las la-user"></i>
+            </div>
+            <div class="widget__content">
+                <p class="text-uppercase text-muted">@lang('Profile')</p>
+                <h1 class="text-white font-weight-bold">
+                    1
+                </h1>
+                <p class="mt-10 text-right">
+                    <a class="btn btn-sm bg--black text--white" href="/seller/profile">@lang('View')
                     </a>
                 </p>
             </div>
         </div><!-- widget end -->
     </div>
 </div><!-- row end-->
-
+@if(2==3)
 <div class="row mt-5 mb-none-30">
     <div class="col-md-12 mb-3">
         <h4>@lang('Sold Amount')</h4>
@@ -257,78 +310,50 @@
         </div>
     </div>
 </div>
-
+@endif
 <div class="row mt-5 mb-30">
     <div class="col-md-12">
         <div class="card b-radius--10 ">
             <div class="card-header">
-                <h4>@lang('Latest Orders')</h4>
+                <h4>@lang('Recently viewed')</h4>
+                
             </div>
             <div class="card-body">
                 <div class="table-responsive--md  table-responsive">
                     <table class="table table--light style--two">
                         <thead>
                             <tr>
-                                <th class="text-left">@lang('Order Date')</th>
-                                <th class="text-left">@lang('Customer')</th>
-                                <th class="text-left">@lang('Order ID')</th>
-                                <th class="text-right">@lang('Amount')</th>
-                                <th>@lang('Status')</th>
+                                <th class="text-left">@lang('Date')</th>
+                                <th class="text-left">@lang('User')</th>
+                                <th class="text-left">@lang('Product')</th>
+                                <th class="text-left">@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @forelse($latestOrders as $item)
+                            @forelse($recentViews as $item)
                             <tr>
                                 <td data-label="@lang('Order Date')" class="text-left">
                                     {{ showDateTime($item->created_at, 'd M, Y') }}
                                 </td>
 
                                 <td data-label="@lang('Customer')" class="text-left">
-                                    @if ($item->order->user)
-                                     {{ $item->order->user->username }}
+                                    @if ($item->user)
+                                     {{ $item->user->username }}
                                     @endif
                                 </td>
                                 <td data-label="@lang('Order ID')" class="text-left">
-                                    {{ @$item->order->order_number }}
+                                    {{ @$item->product->name }}
                                 </td>
-                                <td data-label="@lang('Amount')" class="text-right">
-                                    <b>{{ $general->cur_sym.(showAmount($item->total_price)) }}</b>
+                                <td class="text-left">
+                                    <a href="">
+                                        <span class="badge badge--success">Open Chat</span>
+                                    </a>
                                 </td>
-
-                                <td data-label="@lang('Action')">
-                                    <span class="badge
-                                        @if($item->order->status == 0)
-                                            {{'badge--warning'}}
-                                        @elseif($item->order->status == 1)
-                                            {{'badge--primary'}}
-
-                                        @elseif($item->order->status == 2)
-                                            {{'badge--dark'}}
-                                        @elseif($item->order->status == 3)
-                                            {{'badge--success'}}
-                                        @elseif($item->order->status == 4)
-                                            {{'badge--danger'}}
-                                        @endif
-                                            ">
-
-                                        @if($item->order->status == 0)
-                                        {{'Pending'}}
-                                        @elseif($item->order->status == 1)
-                                        {{'Processing...'}}
-                                        @elseif($item->order->status == 2)
-                                            {{'Dispatched'}}
-                                        @elseif($item->order->status == 3)
-                                            {{'Delivered'}}
-                                        @elseif($item->order->status == 4)
-                                            {{'Canceled'}}
-
-                                        @endif
-                                    </span>
-                                </td>
+                                
                             </tr>
                             @empty
                             <tr>
-                                <td class="text-muted text-center" colspan="100%">@lang('No order found')</td>
+                                <td class="text-muted text-center" colspan="100%">@lang('No record found')</td>
                             </tr>
                             @endforelse
                         </tbody>

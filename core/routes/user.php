@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('user.')->group(function () {
@@ -28,8 +29,16 @@ Route::name('user.')->group(function () {
 
         Route::middleware(['checkStatus'])->group(function () {
             Route::get('dashboard', 'UserController@home')->name('home');
+            Route::prefix("live-chat")->group(function(){
+                Route::get('/', [ChatController::class, 'index']);
+                Route::get('/load-chats', [ChatController::class, 'loadChats']);
+                Route::get('/{hash}', [ChatController::class, 'Chat']);
+                Route::get('/get-chat/{current}', [ChatController::class, 'getChat']);
+                Route::post('/send-message/{current}', [ChatController::class, 'sendMsg']);
+            });
             Route::get('profile-setting', 'UserController@profile')->name('profile.setting');
             Route::post('profile-setting', 'UserController@submitProfile');
+            Route::get('recent-products', 'UserController@recentProduct');
             Route::get('change-password', 'UserController@changePassword')->name('password.change');
             Route::post('change-password', 'UserController@submitPassword');
 

@@ -43,8 +43,8 @@ function sidebarVariation(){
 
 function systemDetails()
 {
-    $system['name'] = 'ecoma';
-    $system['version'] = '1.0'; //'3.1.51';
+    $system['name'] = 'Airshop';
+    $system['version'] = '1.1'; //'3.1.51';
     return $system;
 }
 
@@ -254,7 +254,31 @@ function getAmount($amount, $length = 2)
     $amount = round($amount, $length);
     return $amount + 0;
 }
+function CurrencySign($sign){
+    if($sign == "GBP"){
+        return "£";
+    }
+    if($sign == "USD" || $sign == "US"){
+        return "$";
+    }
+    if($sign == "NGN" || $sign == "NG"){
+        return "N";
+    }
+    return "£";
+}
 
+function getBaseCurrency($code){
+    if($code == "NG"){
+        return "NGN";
+    }
+    if($code == "US" || $code == "USA"){
+        return "USD";
+    }
+    if($code == "CAD" || $code == "CA"){
+        return "CAD";
+    }
+    return "GBP";
+}
 function showAmount($amount, $decimal = 2, $separate = true, $exceptZeros = false){
     $separator = '';
     if($separate){
@@ -330,7 +354,18 @@ function str_limit($title = null, $length = 10)
 {
     return \Illuminate\Support\Str::limit($title, $length);
 }
-
+function getUserIP(){
+    $code = session()->pull("code");
+        $country = session()->pull("country");
+        if(!$code){
+            $info = json_decode(json_encode(getIpInfo()), true);
+            $code = $info["code"][0];
+            $country = $info["country"][0];
+            session()->put("code", $code);
+            session()->put("country", $country);
+        }
+        return [$code, $country];
+}
 //moveable
 function getIpInfo()
 {
@@ -343,8 +378,7 @@ function getIpInfo()
     if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)){
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     }
-
-
+    $ip = "197.211.58.22";
     $xml = @simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=" . $ip);
 
 

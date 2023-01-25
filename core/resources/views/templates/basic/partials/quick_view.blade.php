@@ -93,18 +93,9 @@
             <div class="cart-and-coupon mt-3">
                 <div class="attr-data">
                 </div>
-                <div class="cart-plus-minus quantity">
-                    <div class="cart-decrease qtybutton dec">
-                        <i class="las la-minus"></i>
-                    </div>
-                    <input type="number" name="quantity" step="1" min="1" value="1" class="integer-validation">
-                    <div class="cart-increase qtybutton inc">
-                        <i class="las la-plus"></i>
-                    </div>
-                </div>
 
                 <div class="add-cart">
-                    <button type="button" class="qv-btn cart-add-btn" data-id="{{ $product->id }}">@lang('Add To Cart')</button>
+                    <a href="/user/live-chat?p={{$product->id}}" class="qv-btn " >@lang('Contact Store')</a>
                 </div>
             </div>
             <div>

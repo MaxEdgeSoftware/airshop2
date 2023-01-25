@@ -42,7 +42,10 @@ class User extends Authenticatable
     ];
 
 
-
+    public function Store()
+    {
+        return null;
+    }
 
     public function loginLogs()
     {

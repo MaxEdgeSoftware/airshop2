@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Shop\HomeController;
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', function(){
@@ -18,7 +19,17 @@ Route::domain('{subdomain}.' . env('APP_CDN'))->group(function ($subdomain) {
 /*
 ====================Payment Gateways====================
 */
+Route::get("/test-pop", function(){
+    $general = GeneralSetting::first();
+    $rates = json_decode($general->currency_rates,);
+    $info = json_decode(json_encode(getIpInfo()), true);
+    $code = $info["code"][0];
 
+    foreach ($rates as $rate => $value) {
+        # code...
+    }
+    dd($code, $rates);
+});
 Route::namespace('Gateway')->prefix('ipn')->name('ipn.')->group(function () {
     Route::post('paypal', 'Paypal\ProcessController@ipn')->name('Paypal');
     Route::get('paypal-sdk', 'PaypalSdk\ProcessController@ipn')->name('PaypalSdk');

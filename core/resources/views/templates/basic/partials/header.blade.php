@@ -19,7 +19,7 @@
                         <a href="{{ route('products') }}">@lang('Products')</a>
                     </li>
                     <li>
-                        <a href="/seller/register">@lang('Sell')</a>
+                        <a href="/seller/">@lang('Sell')</a>
                     </li>
 
                     <li>

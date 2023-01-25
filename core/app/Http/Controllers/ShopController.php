@@ -11,6 +11,7 @@ use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\ProductReview;
 use App\Models\AssignProductAttribute;
+use App\Models\RecentView;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +42,7 @@ class ShopController extends Controller
 
     public function products(Request $request)
     {
+        $code = getUserIP()[0];
         $brands       = Brand::latest()->get();
         $categories   = Category::where('parent_id', null)->latest()->get();
         $pageTitle    = 'Products';
@@ -61,6 +63,9 @@ class ShopController extends Controller
                                     ->where('status', 1)
                                     ->with('categories', 'offer', 'offer.activeOffer', 'reviews', 'brand')
                                     ->whereHas('categories')
+                                    ->whereHas('seller', function ($query) use($code){
+                                        $query->where("country_code", $code);
+                                    })
                                     
                                     ->latest()
                                     ->get();
@@ -68,7 +73,9 @@ class ShopController extends Controller
             $all_products       = Product::with('categories', 'offer', 'offer.activeOffer', 'reviews', 'brand')
                                     ->whereHas('categories')
                                     ->where('status', 1)
-                                    
+                                    ->whereHas('seller', function ($query) use($code){
+                                        $query->where("country_code", $code);
+                                    })
                                     ->latest()
                                     ->get();
         }
@@ -105,6 +112,7 @@ class ShopController extends Controller
 
     public function productSearch(Request $request)
     {
+        $code = getUserIP()[0];
         $pageTitle     = 'Product Search';
         $emptyMessage  = 'No product found';
         $searchKey     = $request->search_key;
@@ -123,7 +131,9 @@ class ShopController extends Controller
                             ->where(function ($query) use ($searchKey) {
                                 return $query->where('name', 'like', "%{$searchKey}%")->orWhere('summary', 'like', "%{$searchKey}%")->orWhere('description', 'like', "%{$searchKey}%");
                             })
-
+                            ->whereHas('seller', function ($query) use($code){
+                                $query->where("country_code", $code);
+                            })
                             ->paginate($perpage);
         }else{
             $products   = Category::where('id', $category_id)->firstOrFail()
@@ -137,7 +147,9 @@ class ShopController extends Controller
                                     ->orWhere('summary', 'like', "%{$searchKey}%")
                                     ->orWhere('description', 'like', "%{$searchKey}%");
                                 })
-
+                            ->whereHas('seller', function ($query) use($code){
+                                $query->where("country_code", $code);
+                            })
                             ->paginate($perpage);
         }
 
@@ -153,6 +165,7 @@ class ShopController extends Controller
 
     public function productsByCategory(Request $request, $id)
     {
+        $code = getUserIP()[0];
         $category   = Category::whereId($id)->firstOrFail();
         $pageTitle  = 'Products by Category - '.$category->name;
         $categories = Category::where('parent_id', null)->latest()->get();
@@ -169,6 +182,9 @@ class ShopController extends Controller
                                     ->where('status', 1)
                                     ->with('categories', 'offer', 'offer.activeOffer','brand', 'reviews')
                                     ->whereHas('categories')
+                                    ->whereHas('seller', function ($query) use($code){
+                                        $query->where("country_code", $code);
+                                    })
                                     ->get();
 
         $min_price       = $all_products->min('base_price')??0;
@@ -208,6 +224,7 @@ class ShopController extends Controller
 
     public function productsByBrand(Request $request, $id)
     {
+        $code = getUserIP()[0];
         $brand                  = Brand::whereId($id)->firstOrFail();
         $pageTitle              = 'Products by Brand - '.$brand->name;
         $categories             = Category::where('parent_id', null)->latest()->get();
@@ -225,6 +242,9 @@ class ShopController extends Controller
                                     ->where('status', 1)
                                     ->where('brand_id', $id)->with('categories', 'offer', 'offer.activeOffer','brand', 'reviews')
                                     ->whereHas('categories')
+                                    ->whereHas('seller', function ($query) use($code){
+                                        $query->where("country_code", $code);
+                                    })
                                     ->get();
         }else{
             $all_products       = $brand->products()
@@ -268,6 +288,7 @@ class ShopController extends Controller
 
     public function quickView(Request $request)
     {
+        $code = getUserIP()[0];
         $validator = Validator::make($request->all(), [
             'id' => 'required|integer|gt:0',
         ]);
@@ -284,13 +305,26 @@ class ShopController extends Controller
                     ->where('status', 1)
                     ->with('categories', 'offer', 'offer.activeOffer', 'reviews', 'productImages', 'brand')
                     ->whereHas('categories')
+                    ->whereHas('seller', function ($query) use($code){
+                        $query->where("country_code", $code);
+                    })
                     ->firstOrFail();
 
         if(optional($product->offer)->activeOffer){
             $discount = calculateDiscount($product->offer->activeOffer->amount, $product->offer->activeOffer->discount_type, $product->base_price);
         }else $discount = 0;
 
-
+        $isRecent = RecentView::where("user_id", auth()->id())->where("product_id", $id)->first();
+        if($isRecent){
+            $isRecent->product_id = $id;
+        }else{
+            RecentView::create([
+                "product_id" => $id,
+                "user_id" => auth()->id(),
+                'seller_id' => $product->seller_id
+            ]);
+        }
+        
         $rProducts = $product->categories()
                     ->with('products', 'products.offer')
                     ->get()
@@ -306,14 +340,27 @@ class ShopController extends Controller
 
     public function productDetails($id, $order_id =null)
     {
+        $code = getUserIP()[0];
         if(!auth()->user()) return redirect('/user/login?redirect='.request()->getUri());
         $product = Product::where('id', $id)->where('status', 1)
                     ->with('categories','assignAttributes','offer', 'offer.activeOffer', 'reviews', 'productImages', 'stocks')
                     ->whereHas('categories')
+                    ->whereHas('seller', function ($query) use($code){
+                        $query->where("country_code", $code);
+                    })
                     ->firstOrFail();
 
         $review_available = false;
-
+        $isRecent = RecentView::where("user_id", auth()->id())->where("product_id", $id)->first();
+        if($isRecent){
+            $isRecent->product_id = $id;
+        }else{
+            RecentView::create([
+                "product_id" => $id,
+                "user_id" => auth()->id(),
+            ]);
+        }
+        
         if($order_id){
             $order = Order::where('order_number', $order_id)->where('user_id', auth()->id())->first();
             if($order){
@@ -408,7 +455,7 @@ class ShopController extends Controller
     public function compare()
     {
         $data       = session()->get('compare');
-
+        $code = getUserIP()[0];
         $products   = [];
 
         if($data){
@@ -419,6 +466,9 @@ class ShopController extends Controller
 
         $compare_data   = Product::with('categories', 'offer', 'offer.activeOffer', 'reviews')
                             ->whereHas('categories')
+                            ->whereHas('seller', function($query)use($code){
+                                $query->where("country_code", $code);
+                            })
                             ->whereIn('id',$products)->get();
 
         $compare_items = $compare_data->take(4);
@@ -434,6 +484,7 @@ class ShopController extends Controller
         if(!$data){
             return response(['total'=> 0]);
         }
+        $code = getUserIP()[0];
 
         $products   = [];
 
@@ -444,7 +495,9 @@ class ShopController extends Controller
         $compare_data   = Product::with('categories', 'offer', 'offer.activeOffer', 'reviews')
                             ->where('status', 1)
                             ->whereHas('categories')
-                            
+                            ->whereHas('seller', function($query)use($code){
+                                $query->where("country_code", $code);
+                            })
                             ->whereIn('id',$products)->get();
         return response(['total'=> count($compare_data)]);
     }
@@ -496,14 +549,16 @@ class ShopController extends Controller
     public function allSellers()
     {
         $pageTitle  = "Our sellers";
-        $sellers    = Seller::active()->emailVerified()->smsVerified()->whereHas('shop')->with('shop')->paginate(getPaginate());
+        $code = getUserIP()[0];
+        $sellers    = Seller::active()->emailVerified()->smsVerified()->whereHas('shop')->with('shop')->where("country_code", $code)->paginate(getPaginate());
         return view($this->activeTemplate.'all_sellers',compact('pageTitle','sellers'));
     }
 
     public function sellerDetails($id,$slug)
     {
+        $code = getUserIP()[0];
         $pageTitle      = "Seller Details";
-        $seller         = Seller::active()->emailVerified()->smsVerified()->where('id',$id)->whereHas('shop')->with('shop')->firstOrFail();
+        $seller         = Seller::active()->emailVerified()->smsVerified()->where('id',$id)->where("country_code", $code)->whereHas('shop')->with('shop')->firstOrFail();
         $imageData      = imagePath()['seller']['shop_cover'];
         $seoContents    = getSeoContents($seller->shop, $imageData, 'cover');
         $products       = Product::active()->where('seller_id',$seller->id)->latest()->paginate(getPaginate(20));

@@ -18,7 +18,7 @@
                 <!-- chats, recetly view, wishlist, reviews, support tickets, 2FA Security -->
                     <div class="col-sm-6 col-lg-4">
                         <div class="dashboard-item">
-                            <a href="/user/chat" class="d-block">
+                            <a href="/user/live-chat" class="d-block">
                                 <span class="dashboard-icon">
                                     <i class="las la-list-ol"></i>
                                 </span>
@@ -33,7 +33,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="dashboard-item">
-                            <a href="">
+                            <a href="/user/recent-products">
                                 <span class="dashboard-icon">
                                     <i class="las la-clipboard-list"></i>
                                 </span>

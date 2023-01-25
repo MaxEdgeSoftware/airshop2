@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('seller.')->namespace('Seller')->group(function () {
@@ -24,6 +26,15 @@ Route::name('seller.')->namespace('Seller')->group(function () {
         Route::post('verify-g2fa', 'AuthorizationController@g2faVerification')->name('go2fa.verify');
         
         Route::middleware('sellerCheckStatus')->group(function () {
+
+            Route::prefix("live-chat")->group(function(){
+                Route::get('/', [ChatController::class, 'index']);
+                Route::get('/load-chats', [ChatController::class, 'loadChats']);
+                Route::get('/{hash}', [ChatController::class, 'Chat']);
+                Route::get('/get-chat/{current}', [ChatController::class, 'getChat']);
+                Route::post('/send-message/{current}', [ChatController::class, 'sendMsg']);
+
+            });
             Route::get('/', 'SellerController@home')->name('home');
             Route::get('profile', 'SellerController@profile')->name('profile');
             Route::post('profile', 'SellerController@submitProfile');

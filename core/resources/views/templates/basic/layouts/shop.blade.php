@@ -29,9 +29,10 @@
 
 </head>
 <body>
-
-@yield('content')
-
+    <div id="app">
+    <example-component ></example-component>
+    @yield('content')
+    </div>
 
         
     <script src="{{asset('assets/global/js/jquery-3.6.0.min.js')}}"></script>
@@ -47,7 +48,7 @@
     <script src="{{ asset($activeTemplateTrue.'js/nice-select.js') }}"></script>
     <script src="{{ asset($activeTemplateTrue.'js/zoomsl.min.js')}}"></script>
     <script src="{{ asset($activeTemplateTrue.'js/main.js') }}"></script>
-
+    <script src="{{ asset('core/public/js/app.js')}}" defer></script>
     {{-- Script File pushed from blades --}}
     @stack('script-lib')
     {{-- Load third party plugins --}}

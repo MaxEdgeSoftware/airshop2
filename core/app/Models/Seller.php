@@ -30,6 +30,10 @@ class Seller extends Authenticatable
     {
         return $this->hasOne(Shop::class);
     }
+    public function Store()
+    {
+        return Shop::where("seller_id", $this->id)->first();
+    }
 
     public function loginLogs()
     {
@@ -85,5 +89,8 @@ class Seller extends Authenticatable
     public function totalSold()
     {
         return $this->products()->sum('sold');
+    }
+    public function SupportTickets(){
+        return $this->hasMany(SupportTicket::class, 'seller_id', 'id');
     }
 }

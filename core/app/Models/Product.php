@@ -116,16 +116,22 @@ class Product extends Model
     }
 
 
-    public static function topSales($limit = 6){
-        return self::leftJoin('order_details','products.id','=','order_details.product_id')
+    public static function topSales($limit = 6, $code = null){
+        $builder = self::leftJoin('order_details','products.id','=','order_details.product_id')
         ->leftJoin('orders','order_details.order_id','=','orders.id')
         ->selectRaw('products.*, COALESCE(sum(order_details.quantity),0) total')
         ->where('orders.payment_status', '!=', '0')
         ->groupBy('products.id')
         ->with('reviews')
         ->orderBy('total','desc')
-        ->limit($limit)
-        ->get();
+        ->limit($limit);
+
+        if($code != null){
+            $builder->whereHas("seller", function($query)use($code){
+                $query->where("country_code", $code);
+            });
+        }
+        return $builder->get();
     }
 
 }

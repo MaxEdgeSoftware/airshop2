@@ -17,6 +17,7 @@ use App\Lib\GoogleAuthenticator;
 use App\Models\AdminNotification;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+use App\Models\RecentView;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -48,6 +49,7 @@ class SellerController extends Controller
 
         $sale['last_thirty_days']         = SellLog::where('seller_id',$seller->id)->where('created_at', '>=', Carbon::today()->subDays(30))->sum('after_commission');
 
+        $seller = seller();
 
         $report['months'] = collect([]);
         $report['withdraw_month_amount'] = collect([]);
@@ -89,8 +91,12 @@ class SellerController extends Controller
                         ->orderBy('id', 'DESC')->take(7)->get();
 
         $country = Country::where("country_code", seller()->country_code)->first();
+        
+        $recentViews = RecentView::with(['product', 'user'])->whereHas('product', function($q) use($seller){
+            return $q->whereHas('categories')->where('seller_id', $seller->id);
+        })->take(10)->get();
 
-        return view('seller.dashboard', compact('country', 'pageTitle','order','sale','months','report','withdrawalMonth','withdraw','product','latestOrders'));
+        return view('seller.dashboard', compact('country', 'recentViews', 'pageTitle','order','sale','months','report','withdrawalMonth','withdraw','product','latestOrders'));
     }
 
     public function sellLogs()

@@ -114,7 +114,8 @@ class RegisterController extends Controller
         $seller->username     = trim($data['username']);
         $seller->country_code = $data['country_code'];
         $seller->mobile       = $data['mobile_code'].$data['mobile'];
-
+        $seller->base_currency = getBaseCurrency($seller->country_code);
+        
         $seller->address = [
             'address'   => '',
             'state'     => '',

@@ -8,6 +8,7 @@ use App\Models\ProductReview;
 use App\Models\GeneralSetting;
 use App\Rules\FileTypeValidate;
 use App\Lib\GoogleAuthenticator;
+use App\Models\RecentView;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -33,6 +34,13 @@ class UserController extends Controller
         $pageTitle = "Profile Setting";
         $user = Auth::user();
         return view($this->activeTemplate. 'user.profile_setting', compact('pageTitle','user'));
+    }
+    public function recentProduct()
+    {
+        $pageTitle = "Recent Products";
+        $user = Auth::user();
+        $products = RecentView::where("user_id", auth()->id())->orderBy("updated_at", "desc")->get();
+        return view($this->activeTemplate. 'user.recent_products', compact('pageTitle','user', 'products'));
     }
 
     public function submitProfile(Request $request)

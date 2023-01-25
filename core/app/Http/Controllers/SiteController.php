@@ -24,15 +24,22 @@ class SiteController extends Controller
     }
 
     public function index(){
-
-        $topSellingProducts = Product::topSales(9);
-        $featuredProducts   = Product::active()->featured()->where('status', 1)->inRandomOrder()->take(6)->get();
-        $latestProducts     = Product::active()->latest()->where('status', 1)->inRandomOrder()->take(12)->get();
-        $featuredSeller     = Seller::active()->featured()->whereHas('shop')->with('shop')->inRandomOrder()->take(16)->get();
+        
+        $code = getUserIP()[0];
+        $topSellingProducts = Product::topSales(9, $code);
+        $featuredProducts   = Product::active()->featured()->where('status', 1)->whereHas('seller', function($query) use($code){
+            $query->where("country_code", $code);
+        })->inRandomOrder()->take(6)->get();
+        $latestProducts     = Product::active()->latest()->where('status', 1)->whereHas('seller', function($query) use ($code){
+            $query->where("country_code", $code);
+        })->inRandomOrder()->take(12)->get();
+        $featuredSeller     = Seller::active()->featured()->whereHas('shop')->with('shop')->where("country_code", $code)->inRandomOrder()->take(16)->get();
         $topBrands          = Brand::top()->inRandomOrder()->take(16)->get();
         $pageTitle          = 'Home';
         $offers             = Offer::where('status', 1)->where('end_date', '>', now())
-                                ->with(['products'=> function($q){ return $q->whereHas('categories')->whereHas('brand');},
+                                ->with(['products'=> function($q)use($code){ return $q->whereHas('categories')->whereHas('seller', function($query)use($code){
+                                    $query->where("country_code", $code);
+                                });},
                                     'products.reviews'
                                 ])->get();
         return view($this->activeTemplate . 'home', compact('pageTitle', 'offers', 'topSellingProducts','featuredProducts','featuredSeller','topBrands', 'latestProducts'));

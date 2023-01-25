@@ -29,7 +29,7 @@
             </li>
 
             <li>
-                <a href="{{ url('/') }}" target="blank" class="font-weight-bold text--black">
+                <a href="{{ seller()->shop ? '//'.seller()->shop->domain : url('/')  }}" target="blank" class="font-weight-bold text--black">
                     <i class="las la-cart-plus"></i> @lang('Visit Store')
                 </a>
             </li>
