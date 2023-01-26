@@ -48,13 +48,13 @@
                 </div>
             </div>
             <div class="price">
-                @if($discount > 0)
-                {{ $general->cur_sym }}<span class="special_price">{{ getAmount($product->base_price - $discount) }}</span>
-                <del>{{ $general->cur_sym }}</del><del class="price-data">{{ getAmount($product->base_price) }}</del>
-                @else
-                {{ $general->cur_sym }}<span class="price-data">{{ getAmount($product->base_price) }}</span>
-                @endif
-            </div>
+                    @if($discount > 0)
+                    {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price - $discount, 2) }}
+                    <del>{{ getAmount($product->base_price, 2) }}</del>
+                    @else
+                    {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price, 2) }}
+                    @endif
+                </div>
 
             <p>
                 @php echo __($product->summary) @endphp

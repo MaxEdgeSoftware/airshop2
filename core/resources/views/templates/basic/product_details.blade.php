@@ -54,13 +54,13 @@
                     @endif
 
                     <div class="price">
-                        @if($discount > 0)
-                            {{ $general->cur_sym }}<span class="special_price">{{ getAmount($product->base_price - $discount) }}</span>
-                            <del>{{ $general->cur_sym }}</del><del class="price-data">{{ getAmount($product->base_price) }}</del>
-                        @else
-                            {{ $general->cur_sym }}<span class="price-data">{{ getAmount($product->base_price) }}</span>
-                        @endif
-                    </div>
+                                        @if($discount > 0)
+                                        {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price - $discount, 2) }}
+                                        <del>{{ getAmount($product->base_price, 2) }}</del>
+                                        @else
+                                        {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price, 2) }}
+                                        @endif
+                                    </div>
 
                     <p>
                         @php echo __($product->summary) @endphp
@@ -96,26 +96,15 @@
                     </div>
                     @endif
                     @endforeach
-
                     <div class="cart-and-coupon mt-3">
+                <div class="attr-data">
+                </div>
 
-                        <div class="attr-data">
-                        </div>
-
-                        <div class="cart-plus-minus quantity">
-                            <div class="cart-decrease qtybutton dec">
-                                <i class="las la-minus"></i>
-                            </div>
-                            <input type="number" name="quantity" min="1" value="1" class="integer-validation">
-                            <div class="cart-increase qtybutton inc">
-                                <i class="las la-plus"></i>
-                            </div>
-                        </div>
-
-                        <div class="add-cart">
-                            <button type="submit" class="cmn-btn cart-add-btn text-white" data-id="{{ $product->id }}">@lang('Add To Cart')</button>
-                        </div>
-                    </div>
+                <div class="add-cart">
+                    <a href="/user/live-chat?p={{$product->id}}" class="qv-btn " >@lang('Contact Store')</a>
+                </div>
+            </div>
+                 
 
                     <div>
                         <p class="acc">
