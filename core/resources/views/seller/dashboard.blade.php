@@ -126,7 +126,7 @@
                 {{seller()->shop ?  1 : 0}}
                 </h1>
                 <p class="mt-10 text-right">
-                    <a class="btn btn-sm bg--deep-purple text--white" href="//{{seller()->shop ? seller()->shop->domain : '/seller/shop'}}">{{ seller()->shop ? 'View' : 'Create'}}</a>
+                    <a class="btn btn-sm bg--deep-purple text--white" href="{{seller()->shop ? '//'.seller()->shop->domain : '/seller/shop'}}">{{ seller()->shop ? 'View' : 'Create'}}</a>
                 </p>
             </div>
         </div><!-- widget end -->

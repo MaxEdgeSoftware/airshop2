@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="input-group">
-                        <input type="text" class="form-control whatsappno" id="whatsappno" data-country="{{$country->country_code}}" value="{{old('whatsapp_number') ? old('whatsapp') : $shop->whatsapp_number}}" name="whatsapp_number" autocomplete="off">
+                        <input type="text" class="form-control whatsappno" id="whatsappno" data-country="{{$country->country_code}}" value="{{old('whatsapp_number') ? old('whatsapp') : ($shop ? $shop->whatsapp_number : '')}}" name="whatsapp_number" autocomplete="off">
                     </div>
                     <div class="whatsapp_link_wrapper" style="display: none">
                         <a target="_blank" id="whatsapplink" href=""></a>
