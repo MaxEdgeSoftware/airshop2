@@ -106,7 +106,7 @@ class Seller extends Authenticatable
         try {
             return Plan::where("id", $this->LastSubscription()->plan_id)->first();
         } catch (\Throwable $th) {
-            return redirect("/seller/membership");
+            return null;
         }
     }
     public function UploadLeft(){
