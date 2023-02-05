@@ -16,7 +16,7 @@ class Plan extends Model
         if($sign == "NGN" || $sign == "NG"){
             $rate = env("GBP_NGN");
         }else{
-
+            $rate = 1;
         }
 
         if($duration == 'yearly'){
