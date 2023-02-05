@@ -84,11 +84,13 @@ class MembershipController extends Controller
                 $lastSub = Subscription::where("seller_id", seller()->id)->where("status", "paid")->orderBy("id", "DESC")->first();
                 $now = strtotime(Carbon::now(1));
                 $remaining = 0;
-                if($lastSub->plan_id != '1'){
-                    // check if its still valid
-                    if($lastSub->due_date > $now){
-                        // check the plan, if plan is not this plan
-                        $remaining = $lastSub->due_date - $now;
+                if($lastSub){
+                    if($lastSub->plan_id != '1'){
+                        // check if its still valid
+                        if($lastSub->due_date > $now){
+                            // check the plan, if plan is not this plan
+                            $remaining = $lastSub->due_date - $now;
+                        }
                     }
                 }
 
