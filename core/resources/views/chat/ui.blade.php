@@ -14,7 +14,9 @@
 
 <main class="content" >
     <div style="height: 70px;" class="px-2 d-flex bg-primary align-items-center">
-		<img src="/assets/images/logoIcon/logo.png" alt="" height="50px">
+		<a href="/{{$user_type}}">
+			<img src="/assets/images/logoIcon/logo.png" alt="" height="50px">
+		</a>
 	</div>
     <div class="container-fluid p-0 shadow mt-2">
 		<div class="card chat-card">

@@ -106,7 +106,7 @@
                             <div class="input-group">
                                 <input type="number" step="any" min="0" class="form-control" name="base_price" placeholder="@lang('Type Here')..." value="{{ $value }}" required/>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">@lang($general->cur_sym)</span>
+                                    <span class="input-group-text">@lang(CurrencySign(seller()->base_currency))</span>
                                 </div>
                             </div>
                         </div>

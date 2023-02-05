@@ -50,7 +50,7 @@
                     </div>
                     @if($product->show_in_frontend && $product->track_inventory)
                     @php $quantity = $product->stocks->sum('quantity'); @endphp
-                        <div data-stocks="{{ $product->stocks }}" class="badge badge--{{$quantity>0?'success':'danger'}} stock-status">@lang('In Stock') (<span class="stock-qty">{{$quantity}}</span>)</div>
+                        <div data-stocks="{{ $product->stocks }}" class="badge badge--{{$quantity>0?'success':'danger'}} stock-status d-none">@lang('In Stock') (<span class="stock-qty">{{$quantity}}</span>)</div>
                     @endif
 
                     <div class="price">

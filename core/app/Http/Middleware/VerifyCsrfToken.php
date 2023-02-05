@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'user/deposit',
         'ipn*',
-        'seller/slugify'
+        'seller/slugify',
+        '/seller/membership/*'
     ];
 }

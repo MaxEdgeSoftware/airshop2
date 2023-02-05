@@ -202,6 +202,12 @@
                         <span class="menu-title">@lang('Support')</span>
                     </a>
                 </li>
+                <li class="sidebar-menu-item ">
+                    <a class="nav-link" href="/seller/membership">
+                        <i class="menu-icon las la-star"></i>
+                        <span class="menu-title">@lang('Upgrade')</span>
+                    </a>
+                </li>
 
                 <li class="sidebar-menu-item">
                     <a class="nav-link" href="{{ route('seller.logout') }}">

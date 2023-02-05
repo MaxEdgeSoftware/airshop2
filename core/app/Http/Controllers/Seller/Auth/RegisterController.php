@@ -7,6 +7,8 @@ use App\Models\AdminNotification;
 use App\Models\GeneralSetting;
 use App\Models\Seller;
 use App\Models\SellerLogin;
+use App\Models\Subscription;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -164,6 +166,14 @@ class RegisterController extends Controller
         $sellerLogin->os = @$userAgent['os_platform'];
         $sellerLogin->save();
 
+        // create subscription record
+        Subscription::create([
+            "seller_id" => $seller->id,
+            "plan_id" => 1,
+            "due_date" => strtotime(Carbon::now()->addYear(1)),
+            "channel" => "free",
+            "status" => "paid"
+        ]);
 
         return $seller;
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 col-lg-7 col-xl-9" v-if="current == ''">
         <div class="h-100 no_current d-flex flex-column justify-content-center align-items-center " >
-            <div class=" d-flex rounded flex-column justify-content-center align-items-center bg-white p-3 no_current_wrapper">
+            <div class=" d-flex rounded flex-column justify-content-center align-items-center bg-white p-3 no_current_wrapper" style="height: calc(100vh - 72px)">
                 <img src="/assets/errors/images/no-chats.png" height="150" width="150" alt="not-found">
                 <h4 style="font-weight: 700">Airshop Chat System</h4>
                 <p class="text-muted text-center">

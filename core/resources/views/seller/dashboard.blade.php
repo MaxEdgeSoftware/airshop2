@@ -1,7 +1,18 @@
 @extends('seller.layouts.app')
 
 @section('panel')
-
+<div class="d-flex justify-content-between my-2 align-items-center">
+                <div class="d-flex my-2 align-items-center">
+                    <div class="text-muted">Current Plan</div> &nbsp;
+                    <div>
+                        <span class="badge badge-success p-2">{{seller()->Plan()->plan_name}}</span>
+                    </div>
+                </div>
+                <span class="p-2 badge badge-primary">{{seller()->UploadLeft()}} Uploads left</span>
+            </div>
+            <div class="d-flex justify-content-end text-end mb-2">
+                <a href="/seller/membership" class="btn btn-link">Upgrade</a>
+            </div>
 <div class="row mb-none-30">
     @if(2 == 3)
     <div class="col-xl-4 col-md-6 mb-30">

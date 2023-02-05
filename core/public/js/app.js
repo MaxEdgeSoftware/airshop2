@@ -60865,6 +60865,7 @@ var staticRenderFns = [
           {
             staticClass:
               " d-flex rounded flex-column justify-content-center align-items-center bg-white p-3 no_current_wrapper",
+            staticStyle: { height: "calc(100vh - 72px)" },
           },
           [
             _c("img", {

@@ -107,6 +107,14 @@ Route::name('seller.')->namespace('Seller')->group(function () {
                 Route::get('/view/{ticket}', 'TicketController@viewTicket')->name('ticket.view');
                 Route::post('/reply/{ticket}', 'TicketController@reply')->name('ticket.reply');
             });
+
+            // Support Membership
+            Route::prefix('membership')->group(function () {
+                Route::get('/', 'MembershipController@index')->name('membership.index');
+                Route::get('/{plan}', 'MembershipController@plan')->name('membership.plan');
+                Route::post('/create-payment', 'MembershipController@createPayment');
+                Route::get('/validate-payment/{payment}/{reference}', 'MembershipController@validatePayment');
+            });
         });
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -92,5 +93,22 @@ class Seller extends Authenticatable
     }
     public function SupportTickets(){
         return $this->hasMany(SupportTicket::class, 'seller_id', 'id');
+    }
+    public function LastSubscription(){
+        $sub = Subscription::where("seller_id", $this->id)->where("status", "paid")->where("due_date", ">",strtotime(Carbon::now()))->orderBy("id", "DESC")->first();
+        if(!$sub){
+            return redirect("/seller/membership");
+        }
+
+        return $sub;
+    }
+    public function Plan(){
+        
+        return Plan::where("id", $this->LastSubscription()->plan_id)->first();
+    }
+    public function UploadLeft(){
+        $uploads = $this->Plan()->uploads;
+        $products = $this->products->count();
+        return $uploads - $products;
     }
 }

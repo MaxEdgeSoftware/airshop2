@@ -1,6 +1,6 @@
 <template>
-    <div class="col-12 col-lg-7 col-xl-9" v-if="current == ''">
-        <div class="h-100 no_current d-flex flex-column justify-content-center align-items-center " >
+    <div class="col-12 col-lg-7 col-xl-9" v-if="current == ''" style="background: red">
+        <div class="h-100 no_current d-flex flex-column justify-content-center align-items-center">
             <div class=" d-flex rounded flex-column justify-content-center align-items-center bg-white p-3 no_current_wrapper">
                 <img src="/assets/errors/images/no-chats.png" height="150" width="150" alt="not-found">
                 <h4 style="font-weight: 700">Airshop Chat System</h4>

@@ -2,12 +2,16 @@
 
 use App\Http\Controllers\Shop\HomeController;
 use App\Models\GeneralSetting;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', function(){
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
 });
 
+Route::get("/loto", function(){
+    dd(strtotime(Carbon::now()->addYear(1)));
+});
 
 Route::domain('{subdomain}.' . env('APP_CDN'))->group(function ($subdomain) {
     Route::get("/", [HomeController::class, 'index']);

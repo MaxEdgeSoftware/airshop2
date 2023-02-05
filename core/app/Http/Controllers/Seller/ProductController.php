@@ -42,6 +42,10 @@ class ProductController extends Controller
 
     public function create()
     {
+        $uploadLeft = seller()->UploadLeft();
+        if($uploadLeft == 0){
+            return back()->withErrors(["subscription" => "You have exceed your maximum product uploads, please upgrade your account"]);
+        }
         return view('seller.products.create', $this->productCreate());
     }
 
@@ -51,6 +55,10 @@ class ProductController extends Controller
     }
 
     public function store(Request $request, $id){
+        $uploadLeft = seller()->UploadLeft();
+        if($uploadLeft == 0){
+            return back()->withErrors(["subscription" => "You have exceed your maximum product uploads, please upgrade your account"]);
+        }
         return back()->withNotify(
             $this->storeProduct($request, $id, $this->id())
         );
