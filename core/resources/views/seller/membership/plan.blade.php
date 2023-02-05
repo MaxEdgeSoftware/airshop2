@@ -12,16 +12,16 @@
                 <h5 class="card-title text-white text-uppercase text-center">{{$plan->plan_name}}</h5>
             </div>
 			<div class="p-3 card-body" id="extend_membership">
-                <h6 class="card-price text-center">{{CurrencySign(seller()->base_currency)}}{{number_format($plan->ConvertedAmount($duration))}}<span class="period">/{{$duration}}</span></h6>
+                <h6 class="card-price text-center">{{CurrencySignPlan(seller()->base_currency)}}{{number_format($plan->ConvertedAmount($duration))}}<span class="period">/{{$duration}}</span></h6>
 
                 @if($duration == 'monthly')
                 <div class="text-dark text-center">
-                    <small class="font-weight-bold">{{CurrencySign(seller()->base_currency)}}{{number_format($plan->ConvertedAmount('yearly'))}}<span class="period">/yearly</span></small>
+                    <small class="font-weight-bold">{{CurrencySignPlan(seller()->base_currency)}}{{number_format($plan->ConvertedAmount('yearly'))}}<span class="period">/yearly</span></small>
                     <a href="/seller/membership/{{$plan->hash}}?duration=yearly">Click here to pay annually</a>
                 </div>
                 @elseif($duration == 'yearly')
                 <div class="text-dark text-center">
-                    <small class="font-weight-bold">{{CurrencySign(seller()->base_currency)}}{{number_format($plan->ConvertedAmount())}}<span class="period">/monthly</span></small>
+                    <small class="font-weight-bold">{{CurrencySignPlan(seller()->base_currency)}}{{number_format($plan->ConvertedAmount())}}<span class="period">/monthly</span></small>
                     <a href="/seller/membership/{{$plan->hash}}?duration=monthly">Click here to pay monthly</a>
                 </div>
                 @endif
@@ -37,13 +37,17 @@
                     pay with
                 </div>
                 <br>
-                <div class="d-md-flex text-center align-items-center justify-content-evenly" style="justify-content: center;">
-                    <a class="btn py-2 rounded btn-default border payment_button" data-channel="paystack" style="width: 200px"> <img class="img-fluid" style="height: 30px;" src="/assets/images/paystack-button2.png" alt=""> </a>
-                    <div class="mx-2 text-center">
-                        <span class="rounded-pill badge badge-primary p-2 my-2">or</span> 
+                <div class=" text-center align-items-center justify-content-evenly" style="justify-content: center;">
+                    @if(seller()->base_currency == 'NGN')
+                        <a class="btn py-2 rounded btn-default border payment_button" data-channel="paystack" style="width: 200px"> <img class="img-fluid" style="height: 30px;" src="/assets/images/paystack-button2.png" alt=""> </a>
+                        <div class="mx-2 text-center my-3">
+                            <span class="rounded-pill badge badge-primary p-2 my-2">or</span> 
+                        </div>
+                    @endif
+                    <div class="text-center w-75 mx-auto">
+                        <!-- Set up a container element for the button -->
+                        <div id="paypal-button-container"></div>
                     </div>
-
-                    <a class="btn py-2 p-0 m-0 payment_button" data-channel="paypal" style="width: 200px" > <img class="img-fluid" style="height: 40px; width: fit-content" src="/assets/images/paypal-button.png" alt=""> </a>
                 </div>
 
 				<div class="my-2 text-center d-none">
@@ -62,11 +66,14 @@
 @endsection
 
 @push("script")
+<script src="https://www.paypal.com/sdk/js?client-id=ARNokwOA-8AWe288hn6ZZHMhXvueQ70soUWd4QO7G_vusEdAOoT45s1MmzTb5xkOkaksMQ9yQgIQTypn&currency=GBP"></script>
+
 <script>
     var duration =  "{{$duration}}"
     var pkey =  "{{env('PAYSTACK_KEY')}}"
     var plan = "{{$plan->hash}}"
     var amount = parseFloat("{{$plan->ConvertedAmount($duration)}}")
+    var amount_paypal = parseFloat("{{$plan->price}}")
     var payment_id = ''
     $(".payment_button").on("click", function(e){
         var channel = $(this).attr("data-channel");
@@ -75,7 +82,7 @@
         $.post("/seller/membership/create-payment", {
             channel : channel,
             duration : duration,
-            amount : amount,
+            amount : channel == 'paypal' ? amount_paypal : amount,
             plan : plan,
         }).then((response) => {
             payment_id = response.payment;
@@ -106,10 +113,32 @@
 		});
 		handler.openIframe();
     }
-    payWithPayPal = () => {
-        alert("paystack")
-    }
 
+   paypal.Buttons({
+      // Sets up the transaction when a payment button is clicked
+      createOrder: (data, actions) => {
+         return actions.order.create({
+            purchase_units: [{
+               amount: {
+                  value: amount_paypal // Can also reference a variable or function
+               }
+            }]
+         });
+      },
+      // Finalize the transaction after payer approval
+      onApprove: (data, actions) => {
+         return actions.order.capture().then(function (orderData) {
+            // Successful capture! For dev/demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const transaction = orderData.purchase_units[0].payments.captures[0];
+            alert("Transaction completed, this is the end of the order journey")
+            // alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+            // When ready to go live, remove the alert and show a success message within this page. For example:
+            // const element = document.getElementById('paypal-button-container');
+            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            // Or go to another URL:  actions.redirect('thank_you.html');
+         });
+      }
+   }).render('#paypal-button-container');
 </script>
-
 @endpush

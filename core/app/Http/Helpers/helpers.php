@@ -266,7 +266,13 @@ function CurrencySign($sign){
     }
     return "£";
 }
-
+function CurrencySignPlan($sign){
+    if($sign == "NGN" || $sign == "NG"){
+        return "N";
+    }
+    
+    return "£";
+}
 function getBaseCurrency($code){
     if($code == "NG"){
         return "NGN";

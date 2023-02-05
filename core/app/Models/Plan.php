@@ -13,14 +13,10 @@ class Plan extends Model
 
     public function ConvertedAmount($duration = "month"){
         $sign = seller()->base_currency;
-        if($sign == "GBP"){
-            $rate = 1;
-        }
-        if($sign == "USD" || $sign == "US"){
-            $rate = env("GBP_USD");
-        }
         if($sign == "NGN" || $sign == "NG"){
             $rate = env("GBP_NGN");
+        }else{
+
         }
 
         if($duration == 'yearly'){

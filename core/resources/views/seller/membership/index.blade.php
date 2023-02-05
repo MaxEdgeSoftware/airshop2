@@ -64,9 +64,9 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title text-muted text-uppercase text-center">{{$plan->plan_name}}</h5>
-            <h6 class="card-price text-center">{{CurrencySign(seller()->base_currency)}}{{number_format($plan->ConvertedAmount())}}<span class="period">/month</span></h6>
+            <h6 class="card-price text-center">{{CurrencySignPlan(seller()->base_currency)}}{{number_format($plan->ConvertedAmount())}}<span class="period">/month</span></h6>
             <div class="text-dark text-center">
-                <small class="font-weight-bold">{{CurrencySign(seller()->base_currency)}}{{number_format($plan->ConvertedAmount('yearly'))}}<span class="period">/yearly</span></small>
+                <small class="font-weight-bold">{{CurrencySignPlan(seller()->base_currency)}}{{number_format($plan->ConvertedAmount('yearly'))}}<span class="period">/yearly</span></small>
             </div>
             <hr>
             <ul class="fa-ul">
