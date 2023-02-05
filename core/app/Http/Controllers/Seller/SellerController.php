@@ -28,6 +28,11 @@ class SellerController extends Controller
 
     public function home()
     {
+        $plan = seller()->Plan();
+
+        if(!$plan){
+            return redirect('/seller/membership');
+        }
         $pageTitle = 'Dashboard';
         $seller    = seller();
 
