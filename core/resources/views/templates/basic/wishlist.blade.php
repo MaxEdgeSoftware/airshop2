@@ -53,7 +53,7 @@
                     </td>
 
                     <td data-label="@lang('Price')">
-                        {{$general->cur_sym}}{{getAmount($price, 2)}}
+                        {{ CurrencySign($item->product->seller->base_currency)}}{{getAmount($price, 2)}}
                     </td>
 
                     <td data-label="@lang('Action')">

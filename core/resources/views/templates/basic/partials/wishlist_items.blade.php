@@ -22,11 +22,12 @@
         <h4 class="title"><a class="cl-white" href="{{route('product.detail', ['id'=>$item->product->id, 'slug'=>slug($item->product->name)])}}">{{ shortDescription(__($item->product->name), 35) }}</a></h4>
         <div class="price">
             @if($discount > 0)
-            <span class="pprice">{{ $general->cur_sym }}{{ getAmount($item->product->base_price - $discount) }}</span>
+            <span class="pprice">{{CurrencySign($item->product->seller->base_currency)}}{{ getAmount($item->product->base_price - $discount, 2) }}</span>
             <del class="dprice">{{ getAmount($item->product->base_price) }}</del>
             @else
-            <span class="pprice">{{ $general->cur_sym }}{{ getAmount($item->product->base_price) }}</span>
+            <span class="pprice">{{ CurrencySign($item->product->seller->base_currency)}}{{ getAmount($item->product->base_price) }}</span>
             @endif
+            
         </div>
     </div>
 </div>

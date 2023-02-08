@@ -67,7 +67,7 @@ class WishlistController extends Controller
             $w_data = Wishlist::where('user_id', $user_id)
             ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->orderBy('id', 'desc')
             ->get();
@@ -82,7 +82,7 @@ class WishlistController extends Controller
             $w_data     = Wishlist::where('session_id', $s_id)
             ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->orderBy('id', 'desc')
             ->get();
@@ -106,7 +106,7 @@ class WishlistController extends Controller
             $w_data = Wishlist::where('user_id', $user_id)
             ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->get();
 
@@ -115,7 +115,7 @@ class WishlistController extends Controller
             $w_data     = Wishlist::where('session_id', $s_id)
             ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->get();
         }
@@ -133,7 +133,7 @@ class WishlistController extends Controller
             $wishlist_data = Wishlist::where('user_id', $user_id)
              ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->get();
         }else{
@@ -144,7 +144,7 @@ class WishlistController extends Controller
             $wishlist_data = Wishlist::where('session_id', $s_id)
              ->with(['product', 'product.stocks', 'product.categories' ,'product.offer'])
             ->whereHas('product', function($q){
-                return $q->whereHas('categories')->whereHas('brand');
+                return $q->whereHas('categories');
             })
             ->get();
         }
