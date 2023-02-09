@@ -13,6 +13,7 @@
                                     <option value="php" @if($general->mail_config->name == 'php') selected @endif>@lang('PHP Mail')</option>
                                     <option value="smtp" @if($general->mail_config->name == 'smtp') selected @endif>@lang('SMTP')</option>
                                     <option value="sendgrid" @if($general->mail_config->name == 'sendgrid') selected @endif>@lang('SendGrid API')</option>
+                                    <option value="tribearc" @if($general->mail_config->name == 'tribearc') selected @endif>@lang('Tribearc')</option>
                                     <option value="mailjet" @if($general->mail_config->name == 'mailjet') selected @endif>@lang('Mailjet API')</option>
                                 </select>
                             </div>

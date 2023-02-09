@@ -593,9 +593,10 @@ function sendEmail($user, $type = null, $shortCodes = [])
     $emailLog->subject = $emailTemplate->subj;
     $emailLog->message = $message;
     $emailLog->save();
-
     if ($config->name == 'php') {
         sendPhpMail($user->email, $user->username,$emailTemplate->subj, $message, $general);
+    } else if ($config->name == 'tribearc') {
+        sendTribearc($config, $user->email, $user->username, $emailTemplate->subj, $message,$general);
     } else if ($config->name == 'smtp') {
         sendSmtpMail($config, $user->email, $user->username, $emailTemplate->subj, $message,$general);
     } else if ($config->name == 'sendgrid') {
@@ -648,7 +649,45 @@ function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $messa
     }
 }
 
+function sendTribearc($config, $receiver_email, $receiver_name, $subject, $message,$general)
+{
+        $curl = curl_init();
+        curl_setopt(
+            $curl,
+            CURLOPT_URL,
+            "https://mail.tribearc.com/api/campaigns/send_now.php"
+        );
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); //
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST"); //
+        curl_setopt($curl, CURLOPT_POSTFIELDS, [
+            "api_key" => env("Tribearc_API_KEY"),
+            "from_name" => $general->sitename,
+            "from_email" => $general->email_from,
+            "reply_to" => $general->email_from,
+            "subject" => $subject,
+            "html_text" => $message,
+            "track_opens" => "1",
+            "track_clicks" => "1",
+            "send_campaign" => "1",
+            "json" => "1",
+            "emails" => $receiver_email,
+            "business_address" => "EC3N 4EE 1 TOWER HILL TERRACE, LONDON, UK",
+            "business_name" => $general->sitename,
+        ]);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Api-Token:' . env('TRIBEARC_MAIL_API_KEY')));
 
+        $response = curl_exec($curl);
+        $res = $response;
+        curl_close($curl);
+        if($res == 'Message sent!'){
+            return $res;
+        }else{
+            return 'An error occurred';
+        }
+}
 function sendSendGridMail($config, $receiver_email, $receiver_name, $subject, $message,$general)
 {
     $sendgridMail = new \SendGrid\Mail\Mail();

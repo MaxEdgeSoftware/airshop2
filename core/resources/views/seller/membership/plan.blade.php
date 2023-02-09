@@ -128,6 +128,7 @@
       // Finalize the transaction after payer approval
       onApprove: (data, actions) => {
          return actions.order.capture().then(function (orderData) {
+            console.log(orderData)
             // Successful capture! For dev/demo purposes:
             console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
             const transaction = orderData.purchase_units[0].payments.captures[0];
