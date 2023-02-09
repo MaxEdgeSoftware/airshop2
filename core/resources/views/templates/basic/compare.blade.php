@@ -78,11 +78,7 @@
                             <td class="p-0 product-{{ $item->id }}">
                                 <ul class="compare-specification">
                                     <li><span class="title">@lang('Availability')</span>
-                                    @if($item->stocks->sum('quantity') > 0)
                                     <span class="text-success info">@lang('Available in Stock')</span>
-                                    @else
-                                    <span class="text-danger info">@lang('Not Available in Stock')</span>
-                                    @endif
                                     </li>
                                 </ul>
                             </td>
@@ -91,7 +87,7 @@
 
                         <tr>
                             @foreach ($compare_items as $item)
-                                <td class="product-{{ $item->id }}"><a href="{{route('product.detail', ['id'=>$item->id, 'slug'=>slug($item->name)])}}" class="cmn-btn btn-block">@lang('Buy Now')</a></td>
+                                <td class="product-{{ $item->id }}"><a href="/user/live-chat?p={{$item->id}}" class="cmn-btn btn-block">@lang('Contact Store')</a></td>
                             @endforeach
                         </tr>
 

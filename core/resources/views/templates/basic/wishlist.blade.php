@@ -39,17 +39,7 @@
                     </td>
 
                     <td data-label="@lang('Availability')">
-
-                        @if($item->product->track_inventory)
-                            @if($stock_qty > 0)
-                            <i class="fas fa-check text-success"></i>
-                            @else
-                            <i class="fas fa-times text-danger"></i>
-                            @endif
-                        @else
-                            <i class="fas fa-check text-success"></i>
-                        @endif
-
+                        <i class="fas fa-check text-success"></i>
                     </td>
 
                     <td data-label="@lang('Price')">

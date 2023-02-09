@@ -57,13 +57,7 @@
                                     </a>
                                 </td>
                                 <td data-label="@lang('Price')">{{$product->base_price}}</td>
-                                <td data-label="@lang('In Stock')">
-                                    @if($product->track_inventory)
-                                        {{optional($product->stocks)->sum('quantity')}}
-                                    @else
-                                        @lang('Infinite')
-                                    @endif
-                                </td>
+                                
                                 <td data-label="@lang('Status')">
                                     @if($product->status == 1)
                                        <span class="badge badge--success">@lang('Active')</span>
