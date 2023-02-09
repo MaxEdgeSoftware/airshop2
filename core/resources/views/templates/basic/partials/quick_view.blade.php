@@ -29,8 +29,6 @@
         <div class="product-details-content product-details">
             <h4 class="title mt-3">{{__($product->name)}}</h4>
 
-            @if($product->show_in_frontend && $product->track_inventory)
-            
             <div class="d-flex justify-content-between">
                 <div class="ratings-area justify-content-between">
                     <div class="ratings">
@@ -44,13 +42,13 @@
                 </div>
             </div>
             <div class="price">
-                    @if($discount > 0)
-                    {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price - $discount, 2) }}
-                    <del>{{ getAmount($product->base_price, 2) }}</del>
-                    @else
-                    {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price, 2) }}
-                    @endif
-                </div>
+                @if($discount > 0)
+                {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price - $discount, 2) }}
+                <del>{{ getAmount($product->base_price, 2) }}</del>
+                @else
+                {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price, 2) }}
+                @endif
+            </div>
 
             <p>
                 @php echo __($product->summary) @endphp
@@ -91,7 +89,7 @@
                 </div>
 
                 <div class="add-cart">
-                    <a href="/user/live-chat?p={{$product->id}}" class="qv-btn " >@lang('Contact Store')</a>
+                    <a href="/user/live-chat?p={{$product->id}}" class="qv-btn ">@lang('Contact Store')</a>
                 </div>
             </div>
             <div>
