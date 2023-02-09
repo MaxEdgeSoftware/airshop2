@@ -211,10 +211,7 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('brands') }}">@lang('Brands')</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('orderTrack') }}">@lang('Track Order')</a>
+                        <a href="/seller/">@lang('Seller')</a>
                     </li>
                     @auth
                     <li>
