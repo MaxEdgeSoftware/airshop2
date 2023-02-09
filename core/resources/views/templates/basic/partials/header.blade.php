@@ -18,12 +18,9 @@
                     <li>
                         <a href="{{ route('products') }}">@lang('Products')</a>
                     </li>
-                    <li>
-                        <a href="/seller/">@lang('Sell')</a>
-                    </li>
 
                     <li>
-                        <a href="{{ route('brands') }}">@lang('Near Me')</a>
+                        <a href="/seller/">@lang('Seller')</a>
                     </li>
                    
                     @auth
