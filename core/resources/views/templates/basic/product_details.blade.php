@@ -48,9 +48,6 @@
                             <a href="{{route('seller.details', [$product->seller->id, slug($product->seller->shop->name)])}}">View Store</a>
                         </div>
                     </div>
-                    @if($product->show_in_frontend && $product->track_inventory)
-                    
-
                     <div class="price">
                                         @if($discount > 0)
                                         {{CurrencySign($product->seller->base_currency)}}{{ getAmount($product->base_price - $discount, 2) }}
