@@ -107,4 +107,46 @@ class MembershipController extends Controller
         }
         return back()->withErrors(["payment" => "Unable to verify payment, contact admin"]);
     }
+
+    public function validatePaymentPaypal(Request $request){
+        $this->validate($request, [
+            "plan" => "required",
+            "amount" => "required",
+            "txid" => "required",
+            "duration" => "required"
+        ]);
+
+        $plan = Plan::where("hash", $request->plan)->first();
+
+        $lastSub = Subscription::where("seller_id", seller()->id)->where("status", "paid")->orderBy("id", "DESC")->first();
+        $now = strtotime(Carbon::now(1));
+        $remaining = 0;
+        if($lastSub){
+            if($lastSub->plan_id != '1'){
+                // check if its still valid
+                if($lastSub->due_date > $now){
+                    // check the plan, if plan is not this plan
+                    $remaining = $lastSub->due_date - $now;
+                }
+            }
+        }
+
+        $yearly = strtotime(Carbon::now(1)->addYear(1)) + $remaining;
+        $monthly = strtotime(Carbon::now(1)->addMonths(1)) + $remaining;
+
+        Subscription::create([
+            "seller_id" => seller()->id,
+            "plan_id" => $plan->id,
+            "due_date" => $request->duration == 'yearly' ? $yearly : $monthly,
+            "channel" => "paypal",
+            "status" => "paid",
+            "amount_paid" => $request->amount,
+            "duration" => $request->duration,
+            "reference" => $request->txid,
+            "payload" => json_encode($request->payload),
+        ]);
+
+        return response()->json(["status" => true]);
+
+    }
 }

@@ -48,7 +48,7 @@ class ChatController extends Controller
                         'user_2' => $productSeller  ->email,
                         'user_1_type' => $userType,
                         'user_2_type' => 'seller',
-                        'hash' => \Illuminate\Support\Str::random(20)
+                        'hash' => $this->generateHash()
                     ]);
                 }
 
@@ -101,6 +101,12 @@ class ChatController extends Controller
          return view("chat.ui", [
             "user" => $user, "user_type" => $userType, "current" => $chat, "now" => Carbon::now(1)
         ]);
+    }
+    public function generateHash(){
+        $hash = \Illuminate\Support\Str::random(20);
+        $isChat = Chat::where("hash", $hash)->first();
+        if($isChat) return $this->generateHash();
+        return $hash;
     }
     public function getChat($current){
         $userType = 'user';

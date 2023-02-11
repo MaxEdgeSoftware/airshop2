@@ -67,6 +67,8 @@
 
 @push("script")
 <script src="https://www.paypal.com/sdk/js?client-id=ARNokwOA-8AWe288hn6ZZHMhXvueQ70soUWd4QO7G_vusEdAOoT45s1MmzTb5xkOkaksMQ9yQgIQTypn&currency=GBP"></script>
+<link rel="stylesheet" href="{{ asset('assets/global/css/iziToast.min.css') }}">
+<script src="{{ asset('assets/global/js/iziToast.min.js') }}"></script>
 
 <script>
     var duration =  "{{$duration}}"
@@ -130,14 +132,29 @@
          return actions.order.capture().then(function (orderData) {
             console.log(orderData)
             // Successful capture! For dev/demo purposes:
-            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            const payload = orderData;
+            // console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
             const transaction = orderData.purchase_units[0].payments.captures[0];
-            alert("Transaction completed, this is the end of the order journey")
-            // alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
-            // When ready to go live, remove the alert and show a success message within this page. For example:
-            // const element = document.getElementById('paypal-button-container');
-            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-            // Or go to another URL:  actions.redirect('thank_you.html');
+            console.log(transaction)
+            var data = {
+                plan : plan,
+                amount : amount_paypal,
+                txid : transaction.id,
+                payload : payload,
+                duration : duration
+            }
+            console.log(data)
+            // make backend call
+            $.post("/seller/membership/validate-payment-paypal", data, function(d){
+                if(d.status == true){
+                    iziToast.success({message:"Transaction completed, please wait", position: "topRight"});
+                    window.location.href = "/seller"
+                    return false;
+                }
+                iziToast.error({message:"An error occur", position: "topRight"});
+            }).fail(()=>{
+                iziToast.error({message:"An error occur", position: "topRight"});
+            })
          });
       }
    }).render('#paypal-button-container');

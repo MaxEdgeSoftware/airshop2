@@ -114,6 +114,8 @@ Route::name('seller.')->namespace('Seller')->group(function () {
                 Route::get('/{plan}', 'MembershipController@plan')->name('membership.plan');
                 Route::post('/create-payment', 'MembershipController@createPayment');
                 Route::get('/validate-payment/{payment}/{reference}', 'MembershipController@validatePayment');
+                Route::post('/validate-payment-paypal', 'MembershipController@validatePaymentPaypal');
+                
             });
         });
     });
