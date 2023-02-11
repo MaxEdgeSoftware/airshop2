@@ -47,7 +47,8 @@ class ChatController extends Controller
                         'user_1' => $user->email,
                         'user_2' => $productSeller  ->email,
                         'user_1_type' => $userType,
-                        'user_2_type' => 'seller'
+                        'user_2_type' => 'seller',
+                        'hash' => \Illuminate\Support\Str::random(20)
                     ]);
                 }
 
