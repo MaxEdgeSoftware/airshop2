@@ -2,17 +2,17 @@
 
 @section('panel')
 <div class="d-flex justify-content-between my-2 align-items-center">
-                <div class="d-flex my-2 align-items-center">
-                    <div class="text-muted">Current Plan</div> &nbsp;
-                    <div>
-                        <span class="badge badge-success p-2">{{seller()->Plan()->plan_name}}</span>
-                    </div>
-                </div>
-                <span class="p-2 badge badge-primary">{{seller()->UploadLeft()}} Uploads left</span>
-            </div>
-            <div class="d-flex justify-content-end text-end mb-2">
-                <a href="/seller/membership" class="btn btn-link">Upgrade</a>
-            </div>
+    <div class="d-flex my-2 align-items-center">
+        <div class="text-muted">Current Plan</div> &nbsp;
+        <div>
+            <span class="badge badge-success p-2">{{seller()->Plan()->plan_name}}</span>
+        </div>
+    </div>
+    <span class="p-2 badge badge-primary">{{seller()->UploadLeft()}} Uploads left</span>
+</div>
+<div class="d-flex justify-content-end text-end mb-2">
+    <a href="/seller/membership" class="btn btn-link">Upgrade</a>
+</div>
 <div class="row mb-none-30">
     @if(2 == 3)
     <div class="col-xl-4 col-md-6 mb-30">
@@ -21,7 +21,7 @@
             <div class="widget__content">
                 <p class="text-uppercase text-muted">@lang('Pending Orders')</p>
                 <h1 class="text--dark font-weight-bold">
-                  {{$order['pending']}}
+                    {{$order['pending']}}
                 </h1>
                 <p class="mt-10 text-right">
                     <a class="btn btn-sm btn--dark" href="{{route('seller.order.to_deliver')}}">@lang('View All')
@@ -40,7 +40,7 @@
                 <p class="text-uppercase text-muted">@lang('Proccessing Orders')</p>
 
                 <h1 class="text--teal font-weight-bold">
-                   {{$order['processing']}}
+                    {{$order['processing']}}
                 </h1>
                 <p class="mt-10 text-right">
                     <a class="btn btn-sm bg--teal text-white" href="{{route('seller.order.on_processing')}}">@lang('View All')
@@ -134,7 +134,7 @@
             <div class="widget__content">
                 <p class="text-uppercase text-muted">@lang('My Shop')</p>
                 <h1 class="font-weight-bold text--deep-purple">
-                {{seller()->shop ?  1 : 0}}
+                    {{seller()->shop ?  1 : 0}}
                 </h1>
                 <p class="mt-10 text-right">
                     <a class="btn btn-sm bg--deep-purple text--white" href="{{seller()->shop ? '//'.seller()->shop->domain : '/seller/shop'}}">{{ seller()->shop ? 'View' : 'Create'}}</a>
@@ -236,40 +236,40 @@
     </div>
     <div class="col-xl-4 mb-30">
         <div class="widget-two box--shadow2 b-radius--5 bg--white">
-          <i class="icon-7 overlay-icon text text--11"></i>
-          <div class="widget-two__icon b-radius--5 bg--11">
-            <i class="las la-money-bill"></i>
-          </div>
-          <div class="widget-two__content">
-            <h2>{{$general->cur_sym}}{{showAmount($sale['last_seven_days'])}}</h2>
-            <p>@lang('Last 7 Days')</p>
-          </div>
+            <i class="icon-7 overlay-icon text text--11"></i>
+            <div class="widget-two__icon b-radius--5 bg--11">
+                <i class="las la-money-bill"></i>
+            </div>
+            <div class="widget-two__content">
+                <h2>{{$general->cur_sym}}{{showAmount($sale['last_seven_days'])}}</h2>
+                <p>@lang('Last 7 Days')</p>
+            </div>
         </div><!-- widget-two end -->
     </div>
 
     <div class="col-xl-4 mb-30">
         <div class="widget-two box--shadow2 b-radius--5 bg--white">
-          <i class="icon-15 overlay-icon text text--dark"></i>
-          <div class="widget-two__icon b-radius--5 bg--15">
-            <i class="las la-money-bill"></i>
-          </div>
-          <div class="widget-two__content">
-            <h2>{{$general->cur_sym}}{{showAmount($sale['last_fifteen_days'])}}</h2>
-            <p>@lang('Last 15 Days')</p>
-          </div>
+            <i class="icon-15 overlay-icon text text--dark"></i>
+            <div class="widget-two__icon b-radius--5 bg--15">
+                <i class="las la-money-bill"></i>
+            </div>
+            <div class="widget-two__content">
+                <h2>{{$general->cur_sym}}{{showAmount($sale['last_fifteen_days'])}}</h2>
+                <p>@lang('Last 15 Days')</p>
+            </div>
         </div><!-- widget-two end -->
     </div>
 
     <div class="col-xl-4 mb-30">
         <div class="widget-two box--shadow2 b-radius--5 bg--white">
-          <i class="icon-30 overlay-icon text text--danger"></i>
-          <div class="widget-two__icon b-radius--5 bg--5">
-            <i class="las la-money-bill"></i>
-          </div>
-          <div class="widget-two__content">
-            <h2>{{$general->cur_sym}}{{showAmount($sale['last_thirty_days'])}}</h2>
-            <p>@lang('Last 30 Days')</p>
-          </div>
+            <i class="icon-30 overlay-icon text text--danger"></i>
+            <div class="widget-two__icon b-radius--5 bg--5">
+                <i class="las la-money-bill"></i>
+            </div>
+            <div class="widget-two__content">
+                <h2>{{$general->cur_sym}}{{showAmount($sale['last_thirty_days'])}}</h2>
+                <p>@lang('Last 30 Days')</p>
+            </div>
         </div><!-- widget-two end -->
     </div>
 </div>
@@ -327,7 +327,7 @@
         <div class="card b-radius--10 ">
             <div class="card-header">
                 <h4>@lang('Recently viewed')</h4>
-                
+
             </div>
             <div class="card-body">
                 <div class="table-responsive--md  table-responsive">
@@ -349,7 +349,7 @@
 
                                 <td data-label="@lang('Customer')" class="text-left">
                                     @if ($item->user)
-                                     {{ $item->user->username }}
+                                    {{ $item->user->username }}
                                     @endif
                                 </td>
                                 <td data-label="@lang('Order ID')" class="text-left">
@@ -360,7 +360,7 @@
                                         <span class="badge badge--success">Open Chat</span>
                                     </a>
                                 </td>
-                                
+
                             </tr>
                             @empty
                             <tr>
@@ -380,80 +380,81 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('assets/dashboard/js/vendor/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/dashboard/js/vendor/apexcharts.min.js')}}"></script>
 
-     <script>
-            'use strict';
-        // apex-bar-chart js
-        var options = {
-            series: [{
-                name: 'Total Withdraw',
-                data: [
-                  @foreach($months as $month)
-                    {{ showAmount(@$withdrawalMonth->where('months',$month)->first()->withdrawAmount) }},
-                  @endforeach
-                ]
-            }],
-            chart: {
-                type: 'bar',
-                height: 400,
-                toolbar: {
+<script>
+    'use strict';
+    // apex-bar-chart js
+    var options = {
+        series: [{
+            name: 'Total Withdraw',
+            data: [
+                @foreach($months as $month) {
+                    {
+                        showAmount(@$withdrawalMonth - > where('months', $month) - > first() - > withdrawAmount)
+                    }
+                },
+                @endforeach
+            ]
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+            toolbar: {
+                show: false
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '50%',
+                endingShape: 'rounded'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: @json($months),
+        },
+        yaxis: {
+            title: {
+                text: "{{__($general->cur_sym)}}",
+                style: {
+                    color: '#7c97bb'
+                }
+            }
+        },
+        grid: {
+            xaxis: {
+                lines: {
                     show: false
                 }
             },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '50%',
-                    endingShape: 'rounded'
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: @json($months),
-            },
             yaxis: {
-                title: {
-                    text: "{{__($general->cur_sym)}}",
-                    style: {
-                        color: '#7c97bb'
-                    }
+                lines: {
+                    show: false
                 }
             },
-            grid: {
-                xaxis: {
-                    lines: {
-                        show: false
-                    }
-                },
-                yaxis: {
-                    lines: {
-                        show: false
-                    }
-                },
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return "{{__($general->cur_sym)}}" + val + " "
-                    }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function(val) {
+                    return "{{__($general->cur_sym)}}" + val + " "
                 }
             }
-        };
+        }
+    };
 
-        var chart = new ApexCharts(document.querySelector("#apex-bar-chart"), options);
-        chart.render();
-
-    </script>
+    var chart = new ApexCharts(document.querySelector("#apex-bar-chart"), options);
+    chart.render();
+</script>
 @endpush
-

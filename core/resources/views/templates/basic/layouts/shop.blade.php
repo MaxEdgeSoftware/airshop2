@@ -49,6 +49,20 @@
     <script src="{{ asset($activeTemplateTrue.'js/zoomsl.min.js')}}"></script>
     <script src="{{ asset($activeTemplateTrue.'js/main.js') }}"></script>
     <script src="{{ asset('core/public/js/app.js')}}" defer></script>
+
+
+    <!-- clarity -->
+@if(env('APP_ENV') != 'local')
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "ftk1l71o4c");
+</script>
+@endif
+
+
     {{-- Script File pushed from blades --}}
     @stack('script-lib')
     {{-- Load third party plugins --}}

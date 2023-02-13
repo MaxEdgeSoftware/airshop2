@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "moment": "^2.29.4",
-        "moment-timezone": "^0.5.40"
+        "moment-timezone": "^0.5.40",
+        "vue-advanced-cropper": "^1.11.6"
     }
 }

@@ -12,6 +12,7 @@
     </div>
     <div v-else class="col-12 col-lg-7 col-xl-9">
         <!-- d-none d-lg-block -->
+        
         <div class="py-2 px-4 border-bottom ">
             <div class="d-flex align-items-center py-1">
 
@@ -34,6 +35,7 @@
                 </div>
 
                 <div>
+
                     <button class="btn btn-primary mr-1 text-white px-3">
                         <i class="mdi mdi-paperclip"></i>
                     </button>
@@ -72,6 +74,17 @@
                 <button v-on:click="sendMessage()" v-else id="send_btn" class="btn btn-primary">Send</button>
             </div>
         </div>
+        <div class="cropper-container d-none">
+            <cropper
+                class="cropper"
+                :src="img"
+                :stencil-props="{
+                aspectRatio: 10/12
+                }"
+                @change="change"
+            ></cropper>
+
+        </div>
     </div>
 </template>
 
@@ -89,8 +102,12 @@
 import axios from 'axios'
 import moment from 'moment'
 import momentTZ from 'moment-timezone'
+import { Cropper } from 'vue-advanced-cropper'
 export default {
     props : ["auth_user", "auth_type", "auth_email", "current", "now"],
+    components: {
+        Cropper
+    },
     data() {
         return {
             messages: [],
@@ -100,6 +117,7 @@ export default {
             user_email : this.auth_email,
             msg : '',
             isLoading : false,
+            img: 'https://images.pexels.com/photos/226746/pexels-photo-226746.jpeg'
         }
     },
     methods: {
@@ -118,6 +136,9 @@ export default {
                 self.isLoading = false
                 alert('unable to send your message')
             })
+        },
+        change({coordinates, canvas}) {
+        console.log(coordinates, canvas)
         },
         getCurrent(scroll = true){
             if(this.current == '') {
@@ -177,3 +198,20 @@ export default {
     },
 }
 </script>
+<style>
+.cropper-container {
+    height: 100vh;
+    z-index: 1377336126162;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cropper {
+  /* height: 600px; */
+  background: #DDD;
+}
+</style>
