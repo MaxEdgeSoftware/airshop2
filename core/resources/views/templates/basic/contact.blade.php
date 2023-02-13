@@ -19,9 +19,7 @@
             <div class="col-lg-6">
                 <div class="section-header text-left ml-0 mb-low">
                     <h3 class="title">{{__(@$contact->title)}}</h3>
-                    <p>
-                        {{__($contact->short_details)}}
-                    </p>
+                    
                 </div>
                 <form class="contact-form row" action="" method="POST">
                     @csrf
