@@ -16,7 +16,7 @@
 
                 <div class="section-header left-style">
                     <h3 class="title">{{ __(@$register_content->data_values->title) }}</h3>
-                    <p>{{ __(@$register_content->data_values->description) }}</p>
+                    <p>Welcome to Airshop247</p>
                 </div>
 
                 <form action="{{ route('user.register') }}" method="POST" onsubmit="return submitUserForm();">
@@ -123,9 +123,9 @@
 
                     <div class="contact-group">
                         <div class="m--10 d-flex flex-wrap align-items-center w-100 justify-content-between">
-                            <span class="account-alt">@lang('Already have an account?') <a href="{{ route('user.login') }}">@lang('Login')</a></span>
+                            <span class="account-alt">Already have an account? <a href="/user/login">Login</a></span>
 
-                            <button type="submit" id="recaptcha" class="cmn--btn text-white">@lang('Sign Up')</button>
+                            <button type="submit" id="recaptcha" class="cmn--btn text-white">Sign Up</button>
                         </div>
                     </div>
                 </form>
