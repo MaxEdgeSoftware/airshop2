@@ -177,7 +177,7 @@ class ChatController extends Controller
             $userType = 'seller';
             $user = seller();
         }
-        $chat = Chat::where("user_1", $user->email)->orWhere("user_2", $user->email)->where('hash', $current)->first();
+        $chat = Chat::where('hash', $current)->first();
         if(!$chat){
             return response()->json("failed", 404);
         }
