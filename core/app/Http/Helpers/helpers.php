@@ -363,6 +363,7 @@ function str_limit($title = null, $length = 10)
 function getUserIP(){
     $code = session()->pull("code");
         $country = session()->pull("country");
+
         if(!$code){
             $info = json_decode(json_encode(getIpInfo()), true);
             $code = $info["code"][0];
@@ -376,7 +377,6 @@ function getUserIP(){
 function getIpInfo()
 {
     $ip = $_SERVER["REMOTE_ADDR"];
-
     //Deep detect ip
     if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)){
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -384,7 +384,7 @@ function getIpInfo()
     if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)){
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     }
-    $ip = "197.211.58.22";
+    // $ip = "197.211.58.22";
     $xml = @simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=" . $ip);
 
 
