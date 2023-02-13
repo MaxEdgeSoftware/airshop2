@@ -14,7 +14,7 @@ use App\Lib\GoogleAuthenticator;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-$empty_message = "No record found";
+$empty_message = "Nothing found";
 
 function sellerSidebarVariation(){
     /// for sidebar

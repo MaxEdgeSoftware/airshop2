@@ -27,6 +27,7 @@ class ShopController extends Controller
         $data['all_categories'] = Category::latest()->paginate(20);
         $data['pageTitle']      = 'Categories';
         $data['emptyMessage']   = 'No Category Found';
+        $data['empty_message']   = 'No Category Found';
 
         return view($this->activeTemplate.'categories', $data);
     }
@@ -36,6 +37,7 @@ class ShopController extends Controller
         $data['brands']         = Brand::latest()->paginate(30);
         $data['pageTitle']     = 'Brands';
         $data['emptyMessage']  = 'No Brand Found';
+        $data['empty_message']  = 'No Brand Found';
 
         return view($this->activeTemplate.'brands', $data);
     }
@@ -106,8 +108,9 @@ class ShopController extends Controller
         }
 
         $emptyMessage ="Sorry! No Product Found.";
+        $empty_message ="Sorry! No Product Found.";
 
-        return view($this->activeTemplate . $view, compact('products', 'perpage', 'brand', 'min_price', 'max_price', 'pageTitle' ,'brands','min', 'max', 'category_id', 'emptyMessage'));
+        return view($this->activeTemplate . $view, compact('products', 'perpage', 'brand', 'min_price', 'max_price', 'pageTitle' ,'brands','min', 'max', 'category_id', 'emptyMessage', 'empty_message'));
     }
 
     public function productSearch(Request $request)
@@ -158,8 +161,9 @@ class ShopController extends Controller
         }else{
             $view = 'products_search';
         }
+        $empty_message ="Sorry! No Product Found.";
 
-        return view($this->activeTemplate . $view, compact('pageTitle', 'products', 'emptyMessage', 'searchKey','category_id','perpage'));
+        return view($this->activeTemplate . $view, compact('pageTitle', 'products', 'emptyMessage', 'searchKey','category_id','perpage', 'empty_message'));
     }
 
 
@@ -210,6 +214,7 @@ class ShopController extends Controller
         $products           = paginate($productCollection, $perpage, $page = null, $options = []);
 
         $emptyMessage       = "Sorry! No Product Found";
+        $empty_message       = "Sorry! No Product Found";
         $imageData          = imagePath()['category'];
         $seoContents        = getSeoContents($category, $imageData, 'image');
         $view               = 'products_by_category';
@@ -218,7 +223,7 @@ class ShopController extends Controller
             $view = 'partials.products_filter';
         }
 
-        return view($this->activeTemplate . $view, compact('products', 'perpage', 'brand' ,'min_price', 'max_price', 'pageTitle', 'emptyMessage','min', 'max', 'category', 'brands', 'seoContents'));
+        return view($this->activeTemplate . $view, compact('products', 'perpage', 'brand' ,'min_price', 'max_price', 'pageTitle', 'empty_message', 'emptyMessage','min', 'max', 'category', 'brands', 'seoContents'));
     }
 
 
@@ -277,12 +282,13 @@ class ShopController extends Controller
         }
 
         $emptyMessage   = "Sorry! No Product Found.";
+        $empty_message   = "Sorry! No Product Found.";
 
         $imageData      = imagePath()['brand'];
         $seoContents    = getSeoContents($brand, $imageData, 'logo');
 
 
-        return view($this->activeTemplate . $view, compact('products','categories', 'perpage', 'brand' ,'min_price', 'max_price', 'pageTitle', 'emptyMessage','min', 'max', 'category_id', 'seoContents'));
+        return view($this->activeTemplate . $view, compact('products','categories', 'perpage', 'brand' ,'min_price', 'max_price', 'pageTitle', 'emptyMessage','empty_message', 'min', 'max', 'category_id', 'seoContents'));
 
     }
 
@@ -475,7 +481,8 @@ class ShopController extends Controller
 
         $pageTitle = 'Product Comparison';
         $emptyMessage = 'Comparison list is empty';
-        return view($this->activeTemplate . 'compare', compact('pageTitle', 'compare_items', 'emptyMessage'));
+        $empty_message = 'Comparison list is empty';
+        return view($this->activeTemplate . 'compare', compact('pageTitle', 'compare_items', 'emptyMessage', 'empty_message'));
     }
 
     public function getCompare()
