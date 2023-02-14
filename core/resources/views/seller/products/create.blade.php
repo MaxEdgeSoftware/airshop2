@@ -444,12 +444,13 @@
                             <div class="payment-method-item">
                                 <div class="payment-method-header d-flex flex-wrap">
                                     <div class="thumb">
+										<label for="image" class="bg--primary">Upload</label>
                                         <div class="avatar-preview">
                                             <div class="profilePicPreview" style="background-image: url('{{ getImage(imagePath()['product']['path'].'/'.@$product->main_image, imagePath()['product']['size']) }}')"></div>
                                         </div>
                                         <div class="avatar-edit">
                                             <input type="file" name="main_image" class="profilePicUpload" id="image" accept=".png, .jpg, .jpeg" @if(request()->routeIs('seller.products.create'))required @endif>
-                                            <label for="image" class="bg--primary"><i class="la la-pencil"></i></label>
+                                            <label for="image" class="bg--primary"><i class="la la-pencil"></i>upload</label>
                                         </div>
                                     </div>
                                 </div>
