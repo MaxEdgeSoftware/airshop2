@@ -41,7 +41,6 @@
                                 <th>@lang('Seller')</th>
                                 @endif
                                 <th>@lang('Product')</th>
-                                <th>@lang('Brand')</th>
                                 <th>@lang('Price')</th>
                                 <th>@lang('In Stock')</th>
                                 <th>@lang('Status')</th>
@@ -85,7 +84,7 @@
                                 </td>
 
 
-                                <td data-label="@lang('Brand')">{{$product->brand->name}}</td>
+                                
                                 <td data-label="@lang('Price')">{{$product->base_price}}</td>
 
                                 <td data-label="@lang('Status')">
