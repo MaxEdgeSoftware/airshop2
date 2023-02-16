@@ -389,15 +389,33 @@ function getIpInfo()
     // $ip = "197.211.58.22";
     $xml = @simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=" . $ip);
 
-
+	
     $country = @$xml->geoplugin_countryName;
     $city = @$xml->geoplugin_city;
     $area = @$xml->geoplugin_areaCode;
     $code = @$xml->geoplugin_countryCode;
     $long = @$xml->geoplugin_longitude;
     $lat = @$xml->geoplugin_latitude;
-
+	
     $data['country'] = $country;
+    $data['city'] = $city;
+    $data['area'] = $area;
+    $data['code'] = $code;
+    $data['long'] = $long;
+    $data['lat'] = $lat;
+	
+	if($xml == ""){
+		$geodb = file_get_contents("https://geolocation-db.com/jsonp/".$ip, true);
+		$geodb = str_replace(["callback(", ")"], "", $geodb);
+		$geodb = json_decode($geodb, true);
+		$country =$geodb["country_name"];
+		$city = $geodb["city"];
+		$area = $geodb["postal"];
+		$code = $geodb["country_code"];
+		$long = $geodb["longitude"];
+		$lat = $geodb["latitude"];
+	}
+	$data['country'] = $country;
     $data['city'] = $city;
     $data['area'] = $area;
     $data['code'] = $code;
