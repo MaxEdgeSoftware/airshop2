@@ -386,7 +386,7 @@ function getIpInfo()
     if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)){
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     }
-    // $ip = "197.211.58.22";
+    if(env("APP_ENV") == 'local') $ip = "197.211.58.22";
     $xml = @simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=" . $ip);
 
 	
@@ -396,13 +396,6 @@ function getIpInfo()
     $code = @$xml->geoplugin_countryCode;
     $long = @$xml->geoplugin_longitude;
     $lat = @$xml->geoplugin_latitude;
-	
-    $data['country'] = $country;
-    $data['city'] = $city;
-    $data['area'] = $area;
-    $data['code'] = $code;
-    $data['long'] = $long;
-    $data['lat'] = $lat;
 	
 	if($xml == ""){
 		$geodb = file_get_contents("https://geolocation-db.com/jsonp/".$ip, true);
@@ -424,7 +417,7 @@ function getIpInfo()
     $data['ip'] = request()->ip();
     $data['time'] = date('d-m-Y h:i:s A');
 
-
+    info($data);
     return $data;
 }
 

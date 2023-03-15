@@ -557,7 +557,7 @@ class ShopController extends Controller
     {
         $pageTitle  = "Our sellers";
         $code = getUserIP()[0];
-        $sellers    = Seller::active()->emailVerified()->smsVerified()->whereHas('shop')->with('shop')->where("country_code", $code)->paginate(getPaginate());
+        $sellers    = Seller::active()->whereHas('shop')->with('shop')->where("country_code", $code)->paginate(getPaginate());
         return view($this->activeTemplate.'all_sellers',compact('pageTitle','sellers'));
     }
 
@@ -565,7 +565,7 @@ class ShopController extends Controller
     {
         $code = getUserIP()[0];
         $pageTitle      = "Seller Details";
-        $seller         = Seller::active()->emailVerified()->smsVerified()->where('id',$id)->where("country_code", $code)->whereHas('shop')->with('shop')->firstOrFail();
+        $seller         = Seller::active()->where('id',$id)->where("country_code", $code)->whereHas('shop')->with('shop')->firstOrFail();
         $imageData      = imagePath()['seller']['shop_cover'];
         $seoContents    = getSeoContents($seller->shop, $imageData, 'cover');
         $products       = Product::active()->where('seller_id',$seller->id)->latest()->paginate(getPaginate(20));
