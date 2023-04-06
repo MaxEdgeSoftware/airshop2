@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ChatController;
 use App\Models\Seller;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::name('user.')->group(function () {
@@ -31,7 +33,8 @@ Route::name('user.')->group(function () {
             $user = json_decode(json_encode(auth()->user()), true);
             $user["base_currency"] = getBaseCurrency($user['country_code']);
             $user["balance"] = 0;
-
+            $p = \Illuminate\Support\Str::random(8);
+            $user["password"] = Hash::make($p);
             $Seller = Seller::where('email', $user['email'])->first();
             if(!$Seller){
                 $Seller = Seller::create($user);
