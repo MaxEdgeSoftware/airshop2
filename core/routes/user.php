@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Models\Seller;
 use Illuminate\Support\Facades\Route;
 
 Route::name('user.')->group(function () {
@@ -26,7 +27,18 @@ Route::name('user.')->group(function () {
         Route::post('verify-email', 'AuthorizationController@emailVerification')->name('verify.email');
         Route::post('verify-sms', 'AuthorizationController@smsVerification')->name('verify.sms');
         Route::post('verify-g2fa', 'AuthorizationController@g2faVerification')->name('go2fa.verify');
+       Route::get('switch-user', function(){
+            $user = json_decode(json_encode(auth()->user()), true);
+            $user["base_currency"] = getBaseCurrency($user['country_code']);
+            $user["balance"] = 0;
 
+            $Seller = Seller::where('email', $user['email'])->first();
+            if(!$Seller){
+                $Seller = Seller::create($user);
+            }
+            auth('seller')->login($Seller);
+            return redirect('/seller');
+       });
         Route::middleware(['checkStatus'])->group(function () {
             Route::get('dashboard', 'UserController@home')->name('home');
             Route::prefix("live-chat")->group(function(){

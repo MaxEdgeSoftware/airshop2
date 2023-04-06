@@ -77,7 +77,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="dashboard-item">
-                            <a href="/ticket" class="d-block">
+                            <a href="/user/switch-user" class="d-block">
                                 <span class="dashboard-icon">
                                     <i class="las la-list-alt"></i>
                                 </span>
@@ -85,7 +85,7 @@
                                     <div class="dashboard-header">
                                       
                                     </div>
-                                    @lang('Support Tickets')
+                                    @lang('Switch to Seller')
                                 </div>
                             </a>
                         </div>

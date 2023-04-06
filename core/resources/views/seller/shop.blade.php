@@ -60,7 +60,7 @@
                     <input class="form-control" type="text" name="name" id="project_name" value="{{ old('name')??@$shop->name }}">
                     <input class="form-control" hidden type="text" name="slug" id="slug" value="">
                     <div class="sub_domain" style="display: none">
-                        <small class="text-dark">Your website will be available at <span class="text-primary font-weight-bold" id="sub_domain">.tribearc.xzy</span>!</small>
+                        <small class="text-dark">Your website will be available at <span class="text-primary font-weight-bold" id="sub_domain">.airshop247.xzy</span>!</small>
                     </div>
                 </div>
             </div>
